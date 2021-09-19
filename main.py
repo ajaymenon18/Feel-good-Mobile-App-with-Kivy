@@ -9,6 +9,17 @@ from datetime import datetime
 class LoginScreen(Screen):
     def sign_up(self):
        self.manager.current = "sign_up_screen"
+    
+    def login(self,uname,pword):
+        with open("users.json") as file:
+            users = json.load(file)
+        print(users)
+        if uname in users and users[uname]['password'] == pword:
+            self.manager.current = 'Login_screen_success'
+        else:
+            self.ids.login_wrong.text = "Wrong username or password!"
+
+
 
 class RootWidget(ScreenManager):
     pass
@@ -30,6 +41,11 @@ class SignUpScreen(Screen):
 class SignUpScreenSuccess(Screen):
     def go_to_Login(self):
         self.manager.transition.direction = 'right'
+        self.manager.current = "Login_screen"
+
+class LoginScreenSuccess(Screen):
+    def log_out(self):
+        self.manager.transition.direction = "right"
         self.manager.current = "Login_screen"
 
 
